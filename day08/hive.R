@@ -1,4 +1,4 @@
-library(rJava)
+ï»¿library(rJava)
 library(RJDBC)
 library(DBI)
 
@@ -8,7 +8,7 @@ pw <- '111111'
 url <- 'jdbc:hive2://192.168.111.100:10000'
 
 
-# Hive¸¦ ÀÌ¿ëÇÏ±â À§ÇØ jar ÆÄÀÏÀ» ¿Ã¸°´Ù..
+# Hiveë¥¼ ì´ìš©í•˜ê¸° ìœ„í•´ jar íŒŒì¼ì„ ì˜¬ë¦°ë‹¤..
 hive_lib <-'c:\\java_hive_lib'
 .jinit();
 .jaddClassPath(dir(hive_lib,full.names = T));

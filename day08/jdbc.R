@@ -1,11 +1,11 @@
-# Oracle°ú RÀÇ ¿¬µ¿¿¡ ¾Õ¼­ sqldf¸¦ ÀÌ¿ëÇØ R¿¡¼­ SQLÀ» ÀÌ¿ëÇØº¸ÀÚ
+ï»¿# Oracleê³¼ Rì˜ ì—°ë™ì— ì•ì„œ sqldfë¥¼ ì´ìš©í•´ Rì—ì„œ SQLì„ ì´ìš©í•´ë³´ì
 library(sqldf)
 library(dplyr)
 
 str(iris)
 class(iris)
 
-# irisÀÇ µ¥ÀÌÅÍ¸¦ °¡Á®¿À´Â ´Ù¾çÇÑ ¹æ¹ı..
+# irisì˜ ë°ì´í„°ë¥¼ ê°€ì ¸ì˜¤ëŠ” ë‹¤ì–‘í•œ ë°©ë²•..
 mydata <- sqldf("SELECT * FROM iris WHERE Species='setosa'")
 
 mydata2 <- iris[iris$Species=='setosa',]
@@ -16,7 +16,7 @@ data <- iris
 
 colnames(data) <- c('sl', 'sw', 'pl', 'pw', 's')
 
-# ²ÉÀÇ Á¾ º° Æò±Õ ±¸ÇÏ±â
+# ê½ƒì˜ ì¢… ë³„ í‰ê·  êµ¬í•˜ê¸°
 
 sqldf("SELECT s, AVG(sl) AS 'mean_SL', AVG(sw) AS 'mean_SW', AVG(pl) AS 'mean_PL', AVG(pw) AS 'mean_PW' FROM data GROUP BY s")
 
@@ -26,11 +26,11 @@ cbind(aggregate(sl~s,data,mean),sw=aggregate(sw~s,data,mean)$sw,pl=aggregate(pl~
 
 apply(data[,c(1:4)],2,tapply,INDEX=data$s,mean)
 
-# Ç¥ ±×·Áº¸±â
+# í‘œ ê·¸ë ¤ë³´ê¸°
 
 ggplot(data=data, aes(x=sl,y=pl))+geom_line()
 
-# apply¿Í aggregate¿¡ »ç¿ëÀÚ Á¤ÀÇ ÇÔ¼ö ÀÌ¿ëÇÏ±â...
+# applyì™€ aggregateì— ì‚¬ìš©ì ì •ì˜ í•¨ìˆ˜ ì´ìš©í•˜ê¸°...
 
 fmax <- function(v1){
   return(max(v1))

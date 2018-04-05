@@ -1,11 +1,12 @@
-# 1. µ¥ÀÌÅÍ ¼öÁı
-# 2. Developer¸¦ ÀÌ¿ëÇÏ¿© Å×ÀÌºí »ı¼º ¹× ÀÔ·Â..
-# 3. RÀ» ÀÌ¿ëÇÏ¿© µ¥ÀÌÅÍ¸¦ ºĞ¼®..
+# 1. ë°ì´í„° ìˆ˜ì§‘
+# 2. Developerë¥¼ ì´ìš©í•˜ì—¬ í…Œì´ë¸” ìƒì„± ë° ì…ë ¥..
+# 3. Rì„ ì´ìš©í•˜ì—¬ ë°ì´í„°ë¥¼ ë¶„ì„..
 
 library(rJava)
 library(RJDBC)
 library(DBI)
 library(dplyr)
+library(ggplot2)
 
 drvName <- 'org.apache.hive.jdbc.HiveDriver'
 id <- 'root'
@@ -38,8 +39,18 @@ pd <- pd[-1,]
 
 colnames(st) <- c('year' , 'district' , 'line_num' , 'ginkgo' , 'sycamore' , 'zelkova' , 'cherry' , 'silver_maple' , 'metasequoia' , 'locust' , 'ailanthus' , 'persimmon' , 'weeping_willow' , 'tulip_poplar', 'horse_chestnut', 'poplar' , 'elm' , 'apricot' , 'rose_of_sharon' , 'pine' , 'magnolia' , 'retusa_fringetree' , 'etc' )
 
-qqplot(data= st %>% filter(year %in% c(2012, 2016)), aes())
+colnames(pd) <- c('year','district','household','kor_men','kor_women','for_men','for_women','older_then_65')
 
+class(st$year)
+class(pd$year)
 
+data = left_join(cbind(st,tot_trees=rowSums(st[-c(1:3)],na.rm = TRUE)) %>% select(year, district, tot_trees), cbind(pd,tot_pop=rowSums(pd[-c(1:3)],na.rm = TRUE)) %>% select(year, district, tot_pop), by=c("year", "district"))
 
+d_2012 <- data %>% filter(year==2012 & !is.na(tot_pop))
+d_2016 <- data %>% filter(year==2016 & !is.na(tot_pop))
 
+dd <- data %>% filter(year %in% c(2012, 2016)& !is.na(tot_pop))
+
+ggplot(data=d_2016, aes(x=district,y=tot_trees-d_2012$tot_trees)) + geom_col() + geom_col(data=d_2016, aes(x=district, y=tot_pop-d_2012$tot_pop))
+
+ggplot(dd, aes(x=district))

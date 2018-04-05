@@ -1,5 +1,5 @@
-# º»°İÀûÀ¸·Î R°ú Java¸¦ ¿¬µ¿ÇØº¸ÀÚ..
-# ¿ì¼± ÇÊ¿äÇÑ ÆĞÅ°ÁöµéÀ» ¼³Ä¡ÇÏ°í ·Îµå ÇÑ´Ù.
+ï»¿# ë³¸ê²©ì ìœ¼ë¡œ Rê³¼ Javaë¥¼ ì—°ë™í•´ë³´ì..
+# ìš°ì„  í•„ìš”í•œ íŒ¨í‚¤ì§€ë“¤ì„ ì„¤ì¹˜í•˜ê³  ë¡œë“œ í•œë‹¤.
 # install.packages('rjava')
 # install.packages('RJDBC')
 # install.packages('DBI')
@@ -9,14 +9,14 @@ library(RJDBC)
 library(DBI)
 library(ggplot2)
 
-# ¿¬µ¿Àº ¾Æ·¡¿Í °°Àº ¼ø¼­·Î ÁøÇàÀÌ µÈ´Ù.
+# ì—°ë™ì€ ì•„ë˜ì™€ ê°™ì€ ìˆœì„œë¡œ ì§„í–‰ì´ ëœë‹¤.
 # 1. Driver Loading
 # 2. Connection
 # 3. Statement
 # 4. ResultSet
 # 5. Close
 
-# ÇÊ¿äÇÑ º¯¼ö ¼±¾ğÇÏ±â
+# í•„ìš”í•œ ë³€ìˆ˜ ì„ ì–¸í•˜ê¸°
 drvName <- 'oracle.jdbc.driver.OracleDriver'
 url <- 'jdbc:oracle:thin:@localhost:1521:xe'
 id <- 'ruser2'
@@ -37,20 +37,20 @@ emp <- dbGetQuery(conn, sqlstr)
 # Close
 dbDisconnect(conn)
 
-# 1. emp È¸»çÀÇ ±Ù¼Ó ¿¬¼ö(¿À´Ã³¯Â¥ ±âÁØ)¿Í ¿ù±ŞÀÇ »ó°ü °ü°è¸¦
-# Ç¥·Î Ç¥ÇöÇÏ½Ã¿À. ±Ù¼ÓÀº ¿ù·Î °è»êÇÑ´Ù.
+# 1. emp íšŒì‚¬ì˜ ê·¼ì† ì—°ìˆ˜(ì˜¤ëŠ˜ë‚ ì§œ ê¸°ì¤€)ì™€ ì›”ê¸‰ì˜ ìƒê´€ ê´€ê³„ë¥¼
+# í‘œë¡œ í‘œí˜„í•˜ì‹œì˜¤. ê·¼ì†ì€ ì›”ë¡œ ê³„ì‚°í•œë‹¤.
 
-# ÀÏ °è»êÀÏ °æ¿ì..
+# ì¼ ê³„ì‚°ì¼ ê²½ìš°..
 ggplot(data=emp,aes(x=Sys.Date()-as.Date(substr(emp$HIREDATE,1,10)),y=emp$SAL))+geom_line()
 
-# ¿ù °è»êÀÏ °æ¿ì.. º¹ÀâÇÏ´Ù.. POSIXlt·Î Çüº¯È¯ÇÏ¿© ³¯Â¥¸¦ ÂÉ°³
-# »ç¿ëÇÒ ¼ö ÀÖµµ·Ï ¸¸µé¾î¾ß ÇÑ
+# ì›” ê³„ì‚°ì¼ ê²½ìš°.. ë³µì¡í•˜ë‹¤.. POSIXltë¡œ í˜•ë³€í™˜í•˜ì—¬ ë‚ ì§œë¥¼ ìª¼ê°œ
+# ì‚¬ìš©í•  ìˆ˜ ìˆë„ë¡ ë§Œë“¤ì–´ì•¼ í•œ
 nowDate <- as.POSIXlt(Sys.Date())
 (nowDate$year-as.POSIXlt(substr(emp$HIREDATE,1,10))$year)*12+(nowDate$mon-as.POSIXlt(substr(emp$HIREDATE,1,10))$mon)
 
 ggplot(data=emp,aes(x=(nowDate$year-as.POSIXlt(substr(emp$HIREDATE,1,10))$year)*12+(nowDate$mon-as.POSIXlt(substr(emp$HIREDATE,1,10))$mon), y= emp$SAL)) + geom_line()
 
-# DMLÀ» ÀÌ¿ëÇØ °¡Á®¿À¸é ¾ÆÁÖ ½±°Ô ÇÒ ¼ö ÀÖ´Ù..
+# DMLì„ ì´ìš©í•´ ê°€ì ¸ì˜¤ë©´ ì•„ì£¼ ì‰½ê²Œ í•  ìˆ˜ ìˆë‹¤..
 
 sqlstr <- 'select trunc(months_between(sysdate,HIREDATE)) AS MONThSAL,SAL from emp'
 
@@ -59,7 +59,7 @@ conn <- dbConnect(drv, url, id, pw)
 emp <- dbGetQuery(conn, sqlstr)
 
 
-# ±×·¡ÇÁ °ãÃÄ ±×¸®±â
+# ê·¸ë˜í”„ ê²¹ì³ ê·¸ë¦¬ê¸°
 pressure2 <- pressure*2
 
 ggplot(pressure,aes(x=temperature,y=pressure))+geom_point()+  geom_line()+geom_line(data=pressure2, aes(x=temperature, y=pressure/2), colour="red") + geom_point(data=pressure2, aes(x=temperature, y=pressure/2), colour="red")
